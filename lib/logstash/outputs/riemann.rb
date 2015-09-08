@@ -110,11 +110,11 @@ class LogStash::Outputs::Riemann < LogStash::Outputs::Base
     this_level = Hash.new
     fields.each do |key, contents|
       next if key.start_with?("@")
-      field = parent.nil? ? key : "#{parent}.#{key}"                         
-      if contents.is_a?(Hash)                                     
-        this_level.merge! map_fields(field, contents)                                       
-      else                                                                                  
-        this_level[field.to_sym] = contents                                                          
+      field = parent.nil? ? key : "#{parent}.#{key}"
+      if contents.is_a?(Hash)
+        this_level.merge! map_fields(field, contents)
+      else
+        this_level[field.to_sym] = contents
       end
     end
     return this_level
@@ -125,7 +125,7 @@ class LogStash::Outputs::Riemann < LogStash::Outputs::Base
     return unless output?(event)
 
     r_event = build_riemann_formatted_event(event)
-    
+
     @logger.debug("Riemann event: ", :riemann_event => r_event)
     send_to_riemann(r_event)
   end # def receive
